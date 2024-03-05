@@ -71,13 +71,14 @@ class HomePage extends StatelessWidget {
                     ),
                   )
                 ],
+              ),  
+              SizedBox(
+                height: ScreenSize.height*.4,
               ),
-              Expanded(child: SizedBox(
-              )),
-              Expanded(
-                child: SizedBox(
+              Container(
+                alignment: Alignment.bottomLeft,
+                height: ScreenSize.height*0.28,
                   child: CustomCard(),
-                ),
               ),
             ],
           ),
