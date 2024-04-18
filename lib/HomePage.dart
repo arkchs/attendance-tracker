@@ -12,77 +12,80 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.red,
         elevation: 0,
       ),
-      body: Stack(
-        children: [
-          ClipPath(
-            clipper: ClipCustomBottom(),
-            child: Container(
-              height: ScreenSize.height*0.8,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                shape: BoxShape.rectangle,
-              ),
-            ),
-          ),
-          ClipPath(
-            clipper: ClipCustom(),
-            child: Container(
-              height: ScreenSize.height*0.8,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.rectangle,
-                
-              ),
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              ClipOval(
-                child: SizedBox(
-                  height: ScreenSize.height / 8,
-                  child: Container(child: Image.asset('assets/thapar_logo.png')),
+      body: SingleChildScrollView(
+        child:
+           Stack(
+          children: [
+            ClipPath(
+              clipper: ClipCustomBottom(),
+              child: Container(
+                height: ScreenSize.height*0.8,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  shape: BoxShape.rectangle,
                 ),
               ),
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 211, 191, 11),
+            ),
+            ClipPath(
+              clipper: ClipCustom(),
+              child: Container(
+                height: ScreenSize.height*0.8,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  shape: BoxShape.rectangle,
+                  
                 ),
               ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    child: AutoSizeText(
-                      'Welcome, Akshat!',
-                      maxLines: 1,
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                ClipOval(
+                  child: SizedBox(
+                    height: ScreenSize.height / 8,
+                    child: Container(child: Image.asset('assets/thapar_logo.png')),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: AutoSizeText(
-                      'Here\'s all your attendance informaton!',
-                      maxLines: 1,
-                      style: Theme.of(context).textTheme.displaySmall,
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 211, 191, 11),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child: AutoSizeText(
+                        'Welcome, Akshat!',
+                        maxLines: 1,
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
                     ),
-                  )
-                ],
-              ),  
-              SizedBox(
-                height: ScreenSize.height*.4,
-              ),
-              Container(
-                alignment: Alignment.bottomLeft,
-                height: ScreenSize.height*0.28,
-                  child: CustomCard(),
-              ),
-            ],
-          ),
-        ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: AutoSizeText(
+                        'Here\'s all your attendance informaton!',
+                        maxLines: 1,
+                        style: Theme.of(context).textTheme.displaySmall,
+                      ),
+                    )
+                  ],
+                ),  
+                SizedBox(
+                  height: ScreenSize.height*.4,
+                ),
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  height: ScreenSize.height*0.28,
+                    child: CustomCard(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

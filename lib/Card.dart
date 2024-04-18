@@ -23,7 +23,7 @@ class _CustomCardState extends State<CustomCard> {
          GlobalKey<AnimatedCircularChartState>(),GlobalKey<AnimatedCircularChartState>(),
          GlobalKey<AnimatedCircularChartState>(),GlobalKey<AnimatedCircularChartState>()];
     List<CircularStackEntry> data = <CircularStackEntry>[
-        CircularStackEntry(
+        const CircularStackEntry(
         <CircularSegmentEntry>[
            CircularSegmentEntry(0.0, Colors.amber, rankKey: 'Absent'),
            CircularSegmentEntry(65, Colors.green, rankKey: 'Total'),

@@ -1,4 +1,4 @@
-# attendance_tracker
+# attendance_track
 
 A new Flutter project.
 
