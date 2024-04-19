@@ -126,7 +126,7 @@ class _CustomCardState extends State<CustomCard> {
                   ),
                 ),
                 SizedBox(
-                  height: 170,
+                  height: Screen.height*0.1,
                   child: Center(
                     child: AnimatedCircularChart(
                       key: _chartKey[index],

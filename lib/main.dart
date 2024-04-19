@@ -1,4 +1,4 @@
-import 'package:attendance_track/app_state.dart';
+import 'package:attendance_tracker/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'HomePage.dart';
@@ -35,11 +35,13 @@ final _router = GoRouter(
                   context.push(uri.toString());
                 })),
                 AuthStateChangeAction(((context, state) {
-                  final user = switch (state) {
-                    SignedIn state => state.user,
-                    UserCreated state => state.credential.user,
-                    _ => null
-                  };
+                  final user;
+                  if(state is SignedIn) {
+                    user= state.user;
+                  } else if(state is UserCreated){
+                   user=state.credential.user;}
+                  else 
+                   {user=null;}
                   if (user == null) {
                     return;
                   }
@@ -96,6 +98,7 @@ class MyApp extends StatelessWidget {
   
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: const TextTheme(
           displayLarge: TextStyle(

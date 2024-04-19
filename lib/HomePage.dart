@@ -1,5 +1,9 @@
+import 'package:attendance_tracker/app_state.dart';
+import 'package:attendance_tracker/src/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 import 'Card.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,16 +15,25 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.red,
         elevation: 0,
+        actions: [
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => AuthFunc(
+                isAuthenticated: appState.isAuthenticated,
+                signOut: () {
+                  FirebaseAuth.instance.signOut();
+                }),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
-        child:
-           Stack(
+        scrollDirection: Axis.vertical,
+        child: Stack(
           children: [
             ClipPath(
               clipper: ClipCustomBottom(),
               child: Container(
-                height: ScreenSize.height*0.8,
-                decoration: BoxDecoration(
+                height: ScreenSize.height * 0.8,
+                decoration: const BoxDecoration(
                   color: Colors.amber,
                   shape: BoxShape.rectangle,
                 ),
@@ -29,11 +42,10 @@ class HomePage extends StatelessWidget {
             ClipPath(
               clipper: ClipCustom(),
               child: Container(
-                height: ScreenSize.height*0.8,
-                decoration: BoxDecoration(
+                height: ScreenSize.height * 0.8,
+                decoration: const BoxDecoration(
                   color: Colors.red,
                   shape: BoxShape.rectangle,
-                  
                 ),
               ),
             ),
@@ -41,11 +53,11 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                SizedBox(height: ScreenSize.height * 0.1),
                 ClipOval(
                   child: SizedBox(
                     height: ScreenSize.height / 8,
-                    child: Container(child: Image.asset('assets/thapar_logo.png')),
+                    child: Container(child: Image.asset('assets/codelab.png')),
                   ),
                 ),
                 Container(
@@ -73,14 +85,14 @@ class HomePage extends StatelessWidget {
                       ),
                     )
                   ],
-                ),  
+                ),
                 SizedBox(
-                  height: ScreenSize.height*.4,
+                  height: ScreenSize.height * .4,
                 ),
                 Container(
                   alignment: Alignment.bottomLeft,
-                  height: ScreenSize.height*0.28,
-                    child: CustomCard(),
+                  height: ScreenSize.height * 0.28,
+                  child: CustomCard(),
                 ),
               ],
             ),
@@ -91,18 +103,19 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class ClipCustom extends CustomClipper<Path>{
+class ClipCustom extends CustomClipper<Path> {
   @override
-  Path getClip(Size size)
-  {
-      var path= Path();
-      path.lineTo(0, size.height*0.6);
-      path.quadraticBezierTo(size.width/4, size.height*0.5, size.width/2, size.height*0.6);
-      path.quadraticBezierTo(size.width*0.75, size.height*0.7, size.width, size.height*0.6);
-      path.lineTo(size.width, 0);
-      path.lineTo(0, 0);
-      path.close();
-      return path;
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height * 0.6);
+    path.quadraticBezierTo(
+        size.width / 4, size.height * 0.5, size.width / 2, size.height * 0.6);
+    path.quadraticBezierTo(
+        size.width * 0.75, size.height * 0.7, size.width, size.height * 0.6);
+    path.lineTo(size.width, 0);
+    path.lineTo(0, 0);
+    path.close();
+    return path;
   }
 
   @override
@@ -111,20 +124,20 @@ class ClipCustom extends CustomClipper<Path>{
   }
 }
 
-class ClipCustomBottom extends CustomClipper<Path>{
+class ClipCustomBottom extends CustomClipper<Path> {
   @override
-  Path getClip(Size size)
-  {
+  Path getClip(Size size) {
     var path = Path();
-    path.moveTo(0,size.height*0.6);
-    path.quadraticBezierTo(size.width*0.25, size.height*0.7, size.width/2, size.height*0.6);
-    path.quadraticBezierTo(size.width*0.25, size.height*0.5, 0, size.height*0.6);
+    path.moveTo(0, size.height * 0.6);
+    path.quadraticBezierTo(size.width * 0.25, size.height * 0.7, size.width / 2,
+        size.height * 0.6);
+    path.quadraticBezierTo(
+        size.width * 0.25, size.height * 0.5, 0, size.height * 0.6);
     return path;
-
   }
+
   @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper)
-  {
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return false;
   }
 }
