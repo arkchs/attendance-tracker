@@ -1,16 +1,25 @@
-# attendance_track
+# Student Self-Attendance Tracker
 
-A new Flutter project.
+## Overview
 
-## Getting Started
+The Student Self-Attendance Tracker is a mobile application developed using **Flutter**. It empowers students to self-record their attendance across six different subjects. With a simple and intuitive interface, students can easily mark their presence with just a tap of a button, ensuring their attendance records are always up-to-date.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Self-Recording**: Students can record their attendance for each class session.
+- **Six Subject Tracks**: Separate attendance tracking for six different subjects.
+- **Attendance Reduction**: A dedicated button to decrement the count in case of accidental marking.
+- **Progress Overview**: Visual representation of attendance for each subject.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Contributing
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+We welcome contributions from the community. If you have suggestions for new features or improvements, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- All the hardworking students and educators who inspired this project.
+- The Flutter community for their continuous support and resources.
