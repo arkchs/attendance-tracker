@@ -1,7 +1,8 @@
 import 'package:attendance_tracker/app_state.dart';
+import 'package:attendance_tracker/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'HomePage.dart';
+import 'HomePage/HomePage.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +14,6 @@ void main() {
     builder: ((context, child) => const MyApp()),
   ));
 }
-// Add GoRouter configuration outside the App class
 final _router = GoRouter(
   routes: [
     GoRoute(
@@ -90,7 +90,6 @@ final _router = GoRouter(
     ),
   ],
 );
-// end of GoRouter configuration
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -99,20 +98,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          displaySmall: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20, 
-          )
-        ),
-      ),
-      routerConfig: _router,
+      theme: themeData,
+      routerConfig:_router,
     );
   }
 }

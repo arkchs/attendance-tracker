@@ -1,10 +1,10 @@
 import 'package:attendance_tracker/app_state.dart';
+import 'package:attendance_tracker/HomePage/card.dart';
 import 'package:attendance_tracker/src/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
-import 'Card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
     Size ScreenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Color.fromRGBO(235, 28, 34,1),
         elevation: 0,
         actions: [
           Consumer<ApplicationState>(
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
             ClipPath(
               clipper: ClipCustomBottom(),
               child: Container(
-                height: ScreenSize.height * 0.8,
+                height: ScreenSize.height * 0.75,
                 decoration: const BoxDecoration(
                   color: Colors.amber,
                   shape: BoxShape.rectangle,
@@ -42,63 +42,68 @@ class HomePage extends StatelessWidget {
             ClipPath(
               clipper: ClipCustom(),
               child: Container(
-                height: ScreenSize.height * 0.8,
+                height: ScreenSize.height * 0.75,
                 decoration: const BoxDecoration(
-                  color: Colors.red,
+                  color: Color.fromRGBO(235, 28, 34,1),
                   shape: BoxShape.rectangle,
                 ),
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: ScreenSize.height * 0.1),
-                ClipOval(
-                  child: SizedBox(
-                    height: ScreenSize.height / 8,
-                    child: Container(child: Image.asset('assets/codelab.png')),
-                  ),
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 211, 191, 11),
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      child: AutoSizeText(
-                        'Welcome, Akshat!',
-                        maxLines: 1,
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: AutoSizeText(
-                        'Here\'s all your attendance informaton!',
-                        maxLines: 1,
-                        style: Theme.of(context).textTheme.displaySmall,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: ScreenSize.height * .4,
-                ),
-                Container(
-                  alignment: Alignment.bottomLeft,
-                  height: ScreenSize.height * 0.28,
-                  child: CustomCard(),
-                ),
-              ],
-            ),
+            infoAtTop(ScreenSize: ScreenSize),
           ],
         ),
       ),
+    );
+  }
+}
+
+class infoAtTop extends StatelessWidget {
+  const infoAtTop({
+    super.key,
+    required this.ScreenSize,
+  });
+
+  final Size ScreenSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ClipOval(
+          child: Image.asset('assets/tiet_logo.jpg',height: ScreenSize.height*0.125),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: AutoSizeText(
+                'Welcome, Akshat!',
+                maxLines: 1,
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(color: Colors.white),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: AutoSizeText(
+                'Here\'s all your attendance informaton!',
+                maxLines: 1,
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          height: ScreenSize.height * .3,
+        ),
+        Container(
+          alignment: Alignment.bottomLeft,
+          height: ScreenSize.height * 0.4,
+          child: CustomCard(),
+        ),
+      ],
     );
   }
 }
