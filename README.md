@@ -11,6 +11,12 @@ The Student Self-Attendance Tracker is a mobile application developed using **Fl
 - **Attendance Reduction**: A dedicated button to decrement the count in case of accidental marking.
 - **Progress Overview**: Visual representation of attendance for each subject.
 
+## Design
+Home Page|Sign-In page| Forgot Password page
+:-------------------------:|:-------------------------:|:-------------------------:
+![image](https://github.com/arkchs/attendance-tracker/assets/113816003/a4314a53-334b-4532-8301-2997bd2f8ee9) | ![image](https://github.com/arkchs/attendance-tracker/assets/113816003/6fb32ff5-1349-4d54-be06-fb8f40e13c90) | ![image](https://github.com/arkchs/attendance-tracker/assets/113816003/925e639d-79de-406b-bdf3-003f68bd47e7)
+
+
 ## Contributing
 
 We welcome contributions from the community. If you have suggestions for new features or improvements, please open an issue or submit a pull request.
@@ -21,5 +27,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- All the hardworking students and educators who inspired this project.
 - The Flutter community for their continuous support and resources.
