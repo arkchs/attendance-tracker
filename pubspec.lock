@@ -33,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
-  awesome_circular_chart:
-    dependency: "direct main"
-    description:
-      name: awesome_circular_chart
-      sha256: "9c72738c8246811e0d253c7079fc9cee6dce1a2aab7f0099e92d833985b36d81"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -276,7 +268,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_svg:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_svg
       sha256: "7b4ca6cf3304575fe9c8ec64813c8d02ee41d2afe60bcfe0678bcb5375d596a2"
@@ -477,14 +469,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.2"
-  pie_chart:
-    dependency: "direct main"
-    description:
-      name: pie_chart
-      sha256: "58e6a46999ac938bfa1c3e5be414d6e149f037647197dca03ba3614324c12c82"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.4.0"
   platform:
     dependency: transitive
     description:

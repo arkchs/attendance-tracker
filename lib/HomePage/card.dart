@@ -1,4 +1,7 @@
+import 'package:attendance_tracker/constants/constants.dart';
+import 'package:attendance_tracker/subjectPage.dart/subjects_page.dart';
 import 'package:flutter/material.dart';
+
 class CustomCard extends StatefulWidget {
   const CustomCard({super.key});
 
@@ -7,30 +10,21 @@ class CustomCard extends StatefulWidget {
 }
 
 class _CustomCardState extends State<CustomCard> {
-  List<String> subjects = [
-    'Optimization Techniques',
-    'Artificial Intelligence',
-    'Computer Networks',
-    'Database Mangament Systems',
-    'Design and Analysis of Algorithms',
-    'Software Engineering',
-  ];
-  List<IconData> icons = [
-    Icons.calculate,
-    Icons.smart_toy,
-    Icons.wifi,
-    Icons.density_small_sharp,
-    Icons.calculate,
-    Icons.delete,
-  ];
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: subjects.length,
         itemBuilder: (context, index) {
           return Card(
-            color: Color.fromRGBO(255, 254, 251,1),
+            color: Color.fromRGBO(255, 254, 251, 1),
             child: ListTile(
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            subjectsPage(title: subjects[index])))
+              },
               title: Text(subjects[index]),
               subtitle: Text('Present/Total'),
               leading: Icon(icons[index]),

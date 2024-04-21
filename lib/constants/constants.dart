@@ -21,3 +21,20 @@ ThemeData themeData = ThemeData(
         elevation: MaterialStateProperty.all(0),
       ),
     ));
+
+ List<String> subjects = [
+    'Optimization Techniques',
+    'Artificial Intelligence',
+    'Computer Networks',
+    'Database Mangament Systems',
+    'Design and Analysis of Algorithms',
+    'Software Engineering',
+  ];
+  List<IconData> icons = [
+    Icons.calculate,
+    Icons.smart_toy,
+    Icons.wifi,
+    Icons.density_small_sharp,
+    Icons.calculate,
+    Icons.delete,
+  ];
