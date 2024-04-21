@@ -1,5 +1,5 @@
 import 'package:attendance_tracker/constants/constants.dart';
-import 'package:attendance_tracker/subjectPage.dart/subjects_page.dart';
+import 'package:attendance_tracker/subjectPage/subjects_page.dart';
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:attendance_tracker/subjectPage.dart/DonutChart.dart';
+import 'package:attendance_tracker/subjectPage/DonutChart.dart';
 import 'package:flutter/material.dart';
 
 class subjectsPage extends StatefulWidget {
