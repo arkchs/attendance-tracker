@@ -1,44 +1,23 @@
+import 'package:attendance_tracker/models/present_counter_model.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class DonutChart extends StatefulWidget {
-  DonutChart({super.key});
-  @override
-  _DonutChartState createState() => _DonutChartState();
-}
-
-class _DonutChartState extends State<DonutChart> {
-  int present = 75;
-  int total = 100;
-  double text = 0;
-  bool showPercent = true;
-  void showPercentFunc() {
-    setState(() {
-      text = present / total * 100;
-      showPercent = false;
-    });
-  }
-
-  void showValueFunc() {
-    setState(() {
-      text = present.toDouble();
-      showPercent = true;
-    });
-  }
-
+class DonutChart extends StatelessWidget {
+  const DonutChart({super.key, required this.index});
+  final int index;
   @override
   Widget build(BuildContext context) {
+    
     Size size = MediaQuery.of(context).size;
-    text = present / total * 100;
-    showPercent = true;
-    return Scaffold(
-      body: Column(
+    
+    return Consumer<CounterModel>(
+      builder: (context, model, child) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: () => {
-              showPercent ? showPercentFunc() : showValueFunc(),
+              model.showPercent[index] ? model.showPercentFunc(index) : model.showValueFunc(index),
             },
             child: SizedBox(
               height: 250,
@@ -51,68 +30,60 @@ class _DonutChartState extends State<DonutChart> {
                       centerSpaceRadius: 100,
                       sections: [
                         PieChartSectionData(
-                          value: present.toDouble(),
+                          value: model.present[index].toDouble(),
                           color: Colors.greenAccent,
                           radius: 30,
                           showTitle: false,
                         ),
                         PieChartSectionData(
-                          value: (total - present).toDouble(),
+                          value: (model.total[index] - model.present[index]).toDouble(),
                           color: Colors.blue.shade900,
                           radius: 25,
                           showTitle: false,
                         ),
-                        // PieChartSectionData(
-                        //   value: 20,
-                        //   color: Colors.grey.shade400,
-                        //   radius: 20,
-                        //   showTitle: false,
-                        // ),
                       ],
                     ),
                   ),
                   Center(
                     child: TextButton(
                         onPressed: () =>
-                            {showPercent ? showPercentFunc() : showValueFunc()},
-                        child:
-                             Text('constant', style: TextStyle(fontSize: 30))),
+                            {model.showPercent[index] ? model.showPercentFunc(index) : model.showValueFunc(index)},
+                        child: Text(model.text[index], style: const TextStyle(fontSize: 30))),
                   )
-                  // Positioned.fill(
-                  //   child: Column(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: [
-                  //       Container(
-                  //         height: 160,
-                  //         width: 160,
-                  //         decoration: BoxDecoration(
-                  //           color: Colors.white,
-                  //           shape: BoxShape.circle,
-                  //           boxShadow: [
-                  //             BoxShadow(
-                  //               color: Colors.grey.shade200,
-                  //               blurRadius: 10.0,
-                  //               spreadRadius: 10.0,
-                  //               offset: const Offset(3.0, 3.0),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: Center(
-                  //           child: Text(
-                  //             '$text %',
-                  //             style: TextStyle(fontSize: 20),
-                  //           ),
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // )
                 ],
               ),
             ),
-          )
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              presentButton(model),
+              SizedBox(width: size.width * 0.3),
+              absentButtton(model),
+            ],
+          ),
         ],
       ),
+    );
+  }
+
+  Widget presentButton(model) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.greenAccent),
+      ),
+      onPressed: () {model.incPresent(index);},
+      child: const Text('Present', style: TextStyle(color: Colors.white, fontSize: 20),),
+    );
+  }
+
+  Widget absentButtton(model) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.blue.shade900),
+      ),
+      onPressed: () {model.decPresent(index);},
+      child: const Text('Absent',style: TextStyle(color: Colors.white ,fontSize: 20),),
     );
   }
 }

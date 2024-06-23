@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "987699128479",
-    "project_id": "attendance-tracker-46-6d0e7",
-    "storage_bucket": "attendance-tracker-46-6d0e7.appspot.com"
+    "project_number": "284028230643",
+    "project_id": "attendance-tracker-7bb2f",
+    "storage_bucket": "attendance-tracker-7bb2f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:987699128479:android:582ca6455142454514daaa",
+        "mobilesdk_app_id": "1:284028230643:android:ccb986960294b7164c1086",
         "android_client_info": {
           "package_name": "com.example.attendance_track"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDH0Hn4HShBiWFL_TtVEjXDiMMW9hAQgLI"
+          "current_key": "AIzaSyDJaGu8ahfT4RzGvFRIhcamoUAUlTNdLvw"
         }
       ],
       "services": {
