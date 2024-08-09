@@ -1,8 +1,9 @@
-import 'package:attendance_tracker/constants/constants.dart';
 import 'package:attendance_tracker/models/present_counter_model.dart';
 import 'package:attendance_tracker/subjectPage/subjects_page.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:attendance_tracker/models/subjects_list_model.dart';
 
 class CustomCard extends StatefulWidget {
   const CustomCard({super.key});
@@ -19,7 +20,7 @@ class _CustomCardState extends State<CustomCard> {
         itemCount: subjects.length,
         itemBuilder: (context, index) {
           return Card(
-            color: Colors.blue,
+            color: const Color.fromRGBO(235, 28, 34, 1),
             child: ListTile(
               onTap: () => {
                 Navigator.push(
@@ -28,20 +29,17 @@ class _CustomCardState extends State<CustomCard> {
                         builder: (context) =>
                             SubjectsPage(title: subjects[index], index: index)))
               },
-              title: Text(subjects[index],
+              title: AutoSizeText(subjects[index],
                   style: TextStyle(
-                      fontSize: size.height * 0.05, color: Colors.white)),
+                      fontSize: size.height * 0.05,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                  maxLines: 1),
               subtitle: Consumer<CounterModel>(
                   builder: (context, model, child) => Text(
                       '${model.present[index]}/${model.total[index]}',
                       style: TextStyle(
-                          fontSize: size.height * 0.05,
-                          color: Colors.white))),
-              leading: Icon(
-                icons[index],
-                size: 50,
-                color: Colors.white,
-              ),
+                          fontSize: size.height * 0.05, color: Colors.white))),
             ),
           );
         });
