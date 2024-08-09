@@ -1,4 +1,4 @@
-import 'package:attendance_tracker/HomePage/Card.dart';
+import 'package:attendance_tracker/pages/HomePage/Card.dart';
 import 'package:attendance_tracker/models/subjects_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -140,7 +140,7 @@ class InfoAtTop extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: size.height * .2,
+          height: size.height * .22,
         ),
         Center(
           child: SizedBox(

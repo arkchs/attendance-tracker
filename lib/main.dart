@@ -1,6 +1,6 @@
-import 'package:attendance_tracker/HomePage/homepage.dart';
 import 'package:attendance_tracker/constants/constants.dart';
 import 'package:attendance_tracker/models/present_counter_model.dart';
+import 'package:attendance_tracker/pages/HomePage/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

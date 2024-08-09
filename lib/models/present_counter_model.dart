@@ -20,7 +20,6 @@ class CounterModel with ChangeNotifier {
     text[index] = (present[index] / total[index] * 100).toStringAsFixed(2);
     showPercent[index] = false;
     bool isSaved = await prefs.setString("text${index}", text[index]);
-    print(isSaved.toString());
     notifyListeners();
   }
 

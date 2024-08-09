@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 List<String> subjects = [
-  'Optimization Techniques',
-  'Artificial Intelligence',
-  'Computer Networks',
-  'Database Mangament Systems',
-  'Design and Analysis of Algorithms',
-  'Software Engineering',
+  "Machine Learning",
+  "Network Programming",
+  "Cloud Computing",
+  "Convo AI",
+  "Employment Development Skills",
+  "Probability and Statistics"
 ];
 
 class SubjectHandlerView with ChangeNotifier {

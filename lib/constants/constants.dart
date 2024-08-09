@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData themeData = ThemeData(
-    primaryColor: Colors.purple,
+    primaryColor: Color.fromRGBO(235, 28, 34,1),
     textTheme: TextTheme(
       labelMedium: GoogleFonts.notoSans(
           fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
