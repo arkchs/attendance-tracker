@@ -1,5 +1,4 @@
-import 'package:attendance_tracker/pages/HomePage/Card.dart';
-import 'package:attendance_tracker/models/subjects_list_model.dart';
+import 'package:attendance_tracker/pages/HomePage/card.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:attendance_tracker/models/present_counter_model.dart';
@@ -23,11 +22,8 @@ class _HomePageState extends State<HomePage> {
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(235, 28, 34, 1),
-          elevation: 0,
-          actions: [
-            addSubjectButton(context, subName),
-          ],
+          backgroundColor: Theme.of(context).primaryColor,
+
         ),
         body: SingleChildScrollView(
           child: Stack(
@@ -42,65 +38,90 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              InfoAtTop(size: size),
+              TitleAndCard(
+                size: size,
+                subName: subName,
+              ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  IconButton addSubjectButton(BuildContext context, TextEditingController subName) {
-    return IconButton(
-            onPressed: () => {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Enter the Subject Name'),
-                      actions: [
-                        TextField(
-                          controller: subName,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Enter the Subject Name',
-                          ),
+           bottomNavigationBar: Container(
+                decoration:  const BoxDecoration(
+                  color: Colors.white,
+                ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton.icon(
+                        onPressed: ()=>Navigator.popAndPushNamed(context, '/'),
+                      icon:  Icon(
+                        Icons.home_filled,
+                        color: Theme.of(context).primaryColor,
+                        size: 30,
                         ),
-                        TextButton(
-                            onPressed: () {
-                              SubjectHandlerView().addSubject(subName.text);
-                              CounterModel().addSubject();
-                                
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              "add",
-                              style: TextStyle(color: Colors.red),
-                            )),
-                      ],
-                      elevation: 20.0,
-                      backgroundColor: Colors.white,
-                      shape: const ContinuousRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(12.0))),
-                    );
-                  }),
-            },
-            icon: const Icon(
-              Icons.add_box_rounded,
-              color: Colors.white,
-            ),
-          );
+                        label: Text('Home',style:Theme.of(context).textTheme.labelMedium?.copyWith(color: Colors.black)),
+                        style: Theme.of(context).textButtonTheme.style,
+                  ),
+                        IconButton(onPressed:() =>Navigator.pushNamed(context,'Notes'),
+                     icon: const Icon(Icons.note_alt),),
+                  ],
+                  ),
+                )
+        ),
+    );
   }
 }
 
-class InfoAtTop extends StatelessWidget {
-  const InfoAtTop({
+class TitleAndCard extends StatelessWidget {
+  const TitleAndCard({
     super.key,
     required this.size,
+    required this.subName,
   });
 
   final Size size;
+  final TextEditingController subName;
+  IconButton addSubjectButton(
+      BuildContext context, TextEditingController subName) {
+    return IconButton(
+      onPressed: () => {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Enter the Subject Name'),
+                actions: [
+                  TextField(
+                    controller: subName,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter the Subject Name',
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        context.read<CounterModel>().addSubject(subName.text);
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        "Add",
+                        style: TextStyle(color: Colors.red),
+                      )),
+                ],
+                elevation: 20.0,
+                backgroundColor: Colors.white,
+                shape: const ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              );
+            }),
+      },
+      icon: Icon(
+        Icons.add_box_rounded,
+        color: Colors.white,
+        size: size.height*0.05,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +129,19 @@ class InfoAtTop extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipOval(
-          child:
-              Image.asset('assets/tiet_logo.jpg', height: size.height * 0.125),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ClipOval(
+              child: Image.asset('assets/tiet_logo.jpg',
+                  height: size.height * 0.18),
+            ),
+            const Expanded(child: SizedBox(),),
+            SizedBox(
+              width: size.width*0.2,
+              child: addSubjectButton(context, subName),
+            ),
+          ],
         ),
         Column(
           mainAxisSize: MainAxisSize.min,
@@ -140,13 +171,13 @@ class InfoAtTop extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: size.height * .22,
+          height: size.height * .15,
         ),
         Center(
           child: SizedBox(
             width: size.width * 0.9,
-            height: size.height * 0.45,
-            child: const CustomCard(),
+            height: size.height * 0.4,
+            child: CustomCard(),
           ),
         ),
       ],

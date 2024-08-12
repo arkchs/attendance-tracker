@@ -3,6 +3,15 @@ import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CounterModel with ChangeNotifier {
+    List<String> subjects = [
+  "Machine Learning",
+  "Network Programming",
+  "Cloud Computing",
+  "Convo AI",
+  "EDS",
+  "Probability and Statistics"
+];
+
   List<int> present = [0, 0, 0, 0, 0, 0];
   List<int> total = [0, 0, 0, 0, 0, 0];
   List<String> text = ['', '', '', '', '', ''];
@@ -19,7 +28,7 @@ class CounterModel with ChangeNotifier {
   void showPercentFunc(int index) async {
     text[index] = (present[index] / total[index] * 100).toStringAsFixed(2);
     showPercent[index] = false;
-    bool isSaved = await prefs.setString("text${index}", text[index]);
+    await prefs.setString("text$index", text[index]);
     notifyListeners();
   }
 
@@ -33,22 +42,34 @@ class CounterModel with ChangeNotifier {
     present[index]++;
     decPresent(index);
     showPercentFunc(index);
-    await prefs.setInt("present${index}", present[index]);
+    await prefs.setInt("present$index", present[index]);
     notifyListeners();
   }
 
   void decPresent(int index) async {
     total[index]++;
     showPercentFunc(index);
-    await prefs.setInt("total${index}", total[index]);
+    await prefs.setInt("total$index", total[index]);
     notifyListeners();
   }
 
-  void addSubject() {
+  void addSubject(String subjectName) {
+    subjects.add(subjectName);
+    notifyListeners();
     present.add(0);
     total.add(0);
     showPercent.add(true);
     text.add('');
+    notifyListeners();
+  }
+
+
+  void deleteSubject(int index) {
+    subjects.removeAt(index);
+    present.removeAt(index);
+    total.removeAt(index);
+    showPercent.removeAt(index);
+    text.removeAt(index);
     notifyListeners();
   }
 }
