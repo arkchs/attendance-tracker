@@ -1,8 +1,7 @@
-import 'package:attendance_tracker/models/present_counter_model.dart';
+import 'package:attendance_tracker/models/counter_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DonutChart extends StatefulWidget {
   const DonutChart({super.key, required this.index});
@@ -13,23 +12,14 @@ class DonutChart extends StatefulWidget {
 }
 
 class _DonutChartState extends State<DonutChart> {
-  void updateValues(
-      List<String> text, List<int> present, List<int> total) async {
-    var prefs = await SharedPreferences.getInstance();
-    for (int i = 0; i < present.length; i++) {
-      present[i] = prefs.getInt("present$i") ?? 0;
-      total[i] = prefs.getInt("total$i") ?? 0;
-      text[i] = prefs.getString("text$i") ?? '';
-    }
+  void updateValues() async {
+    CounterModel().initPrefs();
     setState(() => {});
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> text = context.watch<CounterModel>().text;
-    List<int> present = context.watch<CounterModel>().present;
-    List<int> total = context.watch<CounterModel>().total;
-    updateValues(text, present, total);
+    updateValues();
     Size size = MediaQuery.of(context).size;
 
     return Consumer<CounterModel>(
@@ -38,6 +28,7 @@ class _DonutChartState extends State<DonutChart> {
         children: [
           SizedBox(
             height: 250,
+            width: 250,
             child: Stack(
               children: [
                 PieChart(
@@ -56,8 +47,8 @@ class _DonutChartState extends State<DonutChart> {
                         value: (model.total[widget.index] -
                                 model.present[widget.index])
                             .toDouble(),
-                        color: Colors.blue.shade900,
-                        radius: 25,
+                        color: Colors.blue,
+                        radius: 30,
                         showTitle: false,
                       ),
                     ],
@@ -71,7 +62,9 @@ class _DonutChartState extends State<DonutChart> {
                                 : model.showValueFunc(widget.index)
                           },
                       child: Text(model.text[widget.index],
-                          style: const TextStyle(fontSize: 30))),
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Theme.of(context).colorScheme.secondary))),
                 )
               ],
             ),
@@ -79,9 +72,15 @@ class _DonutChartState extends State<DonutChart> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              presentButton(model),
-              SizedBox(width: size.width * 0.3),
-              absentButtton(model),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: presentButton(model),
+              ),
+              SizedBox(width: size.width * 0.2),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: absentButtton(model),
+              ),
             ],
           ),
         ],
@@ -99,7 +98,7 @@ class _DonutChartState extends State<DonutChart> {
       },
       child: const Text(
         'Present',
-        style: TextStyle(color: Colors.white, fontSize: 20),
+        style: TextStyle(color: Colors.white, fontSize: 10),
       ),
     );
   }
@@ -114,7 +113,7 @@ class _DonutChartState extends State<DonutChart> {
       },
       child: const Text(
         'Absent',
-        style: TextStyle(color: Colors.white, fontSize: 20),
+        style: TextStyle(color: Colors.white, fontSize: 10),
       ),
     );
   }
