@@ -22,6 +22,10 @@ class _MyListTileState extends State<MyListTile> {
         SizedBox(
           height: widget.size.height * 0.47,
         ),
+
+        // SizedBox(
+        //   height: widget.size.height * 0.20,
+        // ),
         Center(
           child: Container(
             width: widget.size.width * 0.95,
@@ -68,66 +72,111 @@ class CustomContainer extends StatefulWidget {
 
 class _CustomContainerState extends State<CustomContainer>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: 10.seconds,
-  );
-  late final Animation<double> _animation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.fastEaseInToSlowEaseOut,
-  );
+  bool isTap = false;
   double _height = 0.10;
-  bool isList = false;
+  // bool isList = false;
   bool isListCompleted = false;
 
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: 300.ms,
+  );
+  late final Animation<double> _animation =
+      Tween<double>(begin: 0.10, end: 0.40).animate(_controller);
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      setState(() {
+        _height = _animation.value;
+      });
+    });
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+    void makeListAppear() {
+      _controller.forward();
+      _controller.addListener(() {
+        if(_animation.isCompleted){
+          // isList = !isList;
+          isListCompleted = !isListCompleted;
+          setState(() {});
+        }
+      });
+    }
+
+  void makeListDisappear() {
+    _controller.reverse();
+    _controller.addListener(() {
+      if(_animation.isCompleted){
+        // isList = !isList;
+        isListCompleted = !isListCompleted;
+        setState(() {});
+      }
+    });
+
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _height = _height == 0.6 ? 0.10 : 0.6;
-          isList = !isList;
-          isListCompleted = !isListCompleted;
-        });
+        isTap ? makeListDisappear() : makeListAppear();
+        isTap = !isTap;
+        // _height = _height == 0.6 ? 0.10 : 0.6;
       },
-      child: SizeTransition(
-        sizeFactor: _animation,
-        axis: Axis.horizontal,
-        axisAlignment: -1,
-        child: Container(
-          width: widget.size.width * 0.95,
-          height: widget.size.height * _height,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ListInfo(context),
-              isListCompleted
-                  ? Card(
-                          elevation: 0,
-                          margin: const EdgeInsets.all(16.0),
-                          color: Theme.of(context).colorScheme.primary,
-                          child: DonutChart(index: widget.index))
-                      .animate(effects: [ScaleEffect()])
-                  : SizedBox(),
-            ],
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) => SizeTransition(
+          sizeFactor: _animation,
+          axis: Axis.horizontal,
+          axisAlignment: -1,
+          child: Container(
+            width: widget.size.width * 0.95,
+            height: widget.size.height * _height,
+            decoration: BoxDecoration(
+              // boxShadow: [BoxShadow(
+              //   color: Colors.blue,
+              //   offset: Offset(45,65),
+              //   blurRadius: 20.0,
+              //   spreadRadius: 20.0
+              // ),],
+              color: Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ListInfo(context),
+                isListCompleted
+                    ? Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                 child: Card(
+                     elevation: 5,
+                     margin: const EdgeInsets.all(16.0),
+                     color: Theme.of(context).colorScheme.primary,
+                     child: DonutChart(
+                       index: widget.index,
+                     )).animate(effects: [FadeEffect(duration: 2.seconds)])
+                )
+                    : SizedBox(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Expanded ListInfo(BuildContext context) {
-    return Expanded(
-      child: Row(
+  Widget ListInfo(BuildContext context) {
+    return  Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
               padding: const EdgeInsets.all(16.0),
@@ -139,7 +188,7 @@ class _CustomContainerState extends State<CustomContainer>
                     borderRadius: BorderRadius.all(Radius.circular(5.0))),
               )),
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+            padding: const EdgeInsets.only(left: 8.0, right: 16.0, top: 14.0),
             child: SizedBox(
               width: widget.size.width * 0.5,
               child: Column(
@@ -179,25 +228,27 @@ class _CustomContainerState extends State<CustomContainer>
             ),
           ),
           Align(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.topRight,
             child: Builder(builder: (context) {
-              return IconButton(
-                onPressed: () => showPopover(
-                  transitionDuration: 200.ms,
-                  context: context,
-                  bodyBuilder: (context) => MyPopOptions(
-                    index: widget.index,
+              return Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: IconButton(
+                  onPressed: () => showPopover(
+                    transitionDuration: 200.ms,
+                    context: context,
+                    bodyBuilder: (context) => MyPopOptions(
+                      index: widget.index,
+                    ),
                   ),
-                ),
-                icon: Icon(
-                  Icons.more_vert,
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ),
               );
             }),
           )
         ],
-      ),
     );
   }
 }

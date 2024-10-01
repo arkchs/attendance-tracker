@@ -24,31 +24,32 @@ class _DonutChartState extends State<DonutChart> {
 
     return Consumer<CounterModel>(
       builder: (context, model, child) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            height: 250,
-            width: 250,
+            height: 50,
+            width: 50,
             child: Stack(
               children: [
                 PieChart(
                   PieChartData(
                     startDegreeOffset: 250,
                     sectionsSpace: 0,
-                    centerSpaceRadius: 100,
+                    centerSpaceRadius: 50,
                     sections: [
                       PieChartSectionData(
                         value: model.present[widget.index].toDouble(),
-                        color: Colors.greenAccent,
-                        radius: 30,
+                        color: Colors.red.shade900,
+                        radius: 20,
                         showTitle: false,
                       ),
                       PieChartSectionData(
                         value: (model.total[widget.index] -
                                 model.present[widget.index])
                             .toDouble(),
-                        color: Colors.blue,
-                        radius: 30,
+                        color: Colors.white,
+                        radius: 15,
                         showTitle: false,
                       ),
                     ],
@@ -63,8 +64,8 @@ class _DonutChartState extends State<DonutChart> {
                           },
                       child: Text(model.text[widget.index],
                           style: TextStyle(
-                              fontSize: 30,
-                              color: Theme.of(context).colorScheme.secondary))),
+                              fontSize: 20,
+                              color: Colors.white))),
                 )
               ],
             ),
@@ -79,7 +80,7 @@ class _DonutChartState extends State<DonutChart> {
               SizedBox(width: size.width * 0.2),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: absentButtton(model),
+                child: absentButton(model),
               ),
             ],
           ),
@@ -91,29 +92,29 @@ class _DonutChartState extends State<DonutChart> {
   Widget presentButton(model) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.greenAccent),
+        backgroundColor: MaterialStateProperty.all(Colors.red.shade900),
       ),
       onPressed: () {
         model.incPresent(widget.index);
       },
-      child: const Text(
+      child: Text(
         'Present',
         style: TextStyle(color: Colors.white, fontSize: 10),
       ),
     );
   }
 
-  Widget absentButtton(model) {
+  Widget absentButton(model) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.blue.shade900),
+        backgroundColor: MaterialStateProperty.all(Colors.white),
       ),
       onPressed: () {
         model.decPresent(widget.index);
       },
       child: const Text(
         'Absent',
-        style: TextStyle(color: Colors.white, fontSize: 10),
+        style: TextStyle(color: Colors.black, fontSize: 10),
       ),
     );
   }
