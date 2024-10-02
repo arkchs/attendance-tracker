@@ -12,7 +12,7 @@ class MyBackDrop extends StatelessWidget {
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
       tween: Tween<double>(begin: 0, end: 1),
-      duration: Duration(milliseconds: 500),
+      duration: Duration(seconds: 5),
       builder: (context, double value, child) {
         return Transform.translate(
           offset: Offset(0, size.height * 0.4 * (value - 1)),

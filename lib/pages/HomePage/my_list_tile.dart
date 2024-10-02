@@ -12,7 +12,33 @@ class MyListTile extends StatefulWidget {
   State<MyListTile> createState() => _MyListTileState();
 }
 
-class _MyListTileState extends State<MyListTile> {
+class _MyListTileState extends State<MyListTile>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late List<Animation<Offset>> staggerListAnimation;
+  late final int itemCount;
+  @override
+  void initState() {
+    super.initState();
+
+    itemCount = context.read<CounterModel>().subjects.length;
+
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+
+    staggerListAnimation = List.generate(
+      itemCount,
+      (index) => Tween(begin: const Offset(-1, 0), end: Offset.zero).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Interval((index / itemCount), 1),
+        ),
+      ),
+    );
+
+    _controller.forward();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<String> subjects = context.watch<CounterModel>().subjects;
@@ -36,12 +62,15 @@ class _MyListTileState extends State<MyListTile> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: CustomContainer(
-                        size: widget.size,
-                        context: context,
-                        subjects: subjects,
-                        index: index,
-                        value: value,
+                      child: SlideTransition(
+                        position: staggerListAnimation[index],
+                        child: CustomContainer(
+                          size: widget.size,
+                          context: context,
+                          subjects: subjects,
+                          index: index,
+                          value: value,
+                        ),
                       ),
                     );
                   }),
@@ -100,27 +129,26 @@ class _CustomContainerState extends State<CustomContainer>
     super.dispose();
   }
 
-    void makeListAppear() {
-      _controller.forward();
-      _controller.addListener(() {
-        if(_animation.isCompleted){
-          // isList = !isList;
-          isListCompleted = !isListCompleted;
-          setState(() {});
-        }
-      });
-    }
-
-  void makeListDisappear() {
-    _controller.reverse();
+  void makeListAppear() {
+    _controller.forward();
     _controller.addListener(() {
-      if(_animation.isCompleted){
+      if (_animation.isCompleted) {
         // isList = !isList;
         isListCompleted = !isListCompleted;
         setState(() {});
       }
     });
+  }
 
+  void makeListDisappear() {
+    _controller.reverse();
+    _controller.addListener(() {
+      if (_animation.isCompleted) {
+        // isList = !isList;
+        isListCompleted = !isListCompleted;
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -156,15 +184,16 @@ class _CustomContainerState extends State<CustomContainer>
                 ListInfo(context),
                 isListCompleted
                     ? Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                 child: Card(
-                     elevation: 5,
-                     margin: const EdgeInsets.all(16.0),
-                     color: Theme.of(context).colorScheme.primary,
-                     child: DonutChart(
-                       index: widget.index,
-                     )).animate(effects: [FadeEffect(duration: 2.seconds)])
-                )
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Card(
+                                elevation: 5,
+                                margin: const EdgeInsets.all(16.0),
+                                color: Theme.of(context).colorScheme.primary,
+                                child: DonutChart(
+                                  index: widget.index,
+                                ))
+                            .animate(
+                                effects: [FadeEffect(duration: 2.seconds)]))
                     : SizedBox(),
               ],
             ),
@@ -175,80 +204,79 @@ class _CustomContainerState extends State<CustomContainer>
   }
 
   Widget ListInfo(BuildContext context) {
-    return  Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                height: 35.0,
-                width: 40.0,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              )),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 16.0, top: 14.0),
-            child: SizedBox(
-              width: widget.size.width * 0.5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.subjects[widget.index],
-                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                          overflow: TextOverflow.ellipsis,
-                          color: Theme.of(context).colorScheme.onPrimary)),
-                  ((widget.value.present[widget.index] /
-                                  widget.value.total[widget.index]) *
-                              100)
-                          .isNaN
-                      ? Text(
-                          '...',
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall
-                              ?.copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary),
-                        )
-                      : Text(
-                          ((widget.value.present[widget.index] /
-                                      widget.value.total[widget.index]) *
-                                  100)
-                              .toStringAsFixed(2),
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                        ),
-                ],
-              ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              height: 35.0,
+              width: 40.0,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
+            )),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 16.0, top: 14.0),
+          child: SizedBox(
+            width: widget.size.width * 0.5,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(widget.subjects[widget.index],
+                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                        overflow: TextOverflow.ellipsis,
+                        color: Theme.of(context).colorScheme.onPrimary)),
+                ((widget.value.present[widget.index] /
+                                widget.value.total[widget.index]) *
+                            100)
+                        .isNaN
+                    ? Text(
+                        '...',
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall
+                            ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary),
+                      )
+                    : Text(
+                        ((widget.value.present[widget.index] /
+                                    widget.value.total[widget.index]) *
+                                100)
+                            .toStringAsFixed(2),
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall
+                            ?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                      ),
+              ],
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Builder(builder: (context) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: IconButton(
-                  onPressed: () => showPopover(
-                    transitionDuration: 200.ms,
-                    context: context,
-                    bodyBuilder: (context) => MyPopOptions(
-                      index: widget.index,
-                    ),
-                  ),
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Builder(builder: (context) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: IconButton(
+                onPressed: () => showPopover(
+                  transitionDuration: 200.ms,
+                  context: context,
+                  bodyBuilder: (context) => MyPopOptions(
+                    index: widget.index,
                   ),
                 ),
-              );
-            }),
-          )
-        ],
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+            );
+          }),
+        )
+      ],
     );
   }
 }

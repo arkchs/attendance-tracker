@@ -40,11 +40,11 @@ class CustomTitle extends StatelessWidget {
                 ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
           ).animate(effects: [
             FadeEffect(
-              duration: const Duration(milliseconds: 1000),
+              duration: const Duration(seconds: 3),
             ),
             SlideEffect(
-              duration: const Duration(milliseconds: 1000),
-              begin: Offset(-10, 0),
+              duration: const Duration(seconds: 5),
+              begin: Offset(-1, 0),
               end: Offset(0, 0),
             ),
           ]),
@@ -59,10 +59,10 @@ class CustomTitle extends StatelessWidget {
                 ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
           ).animate(effects: [
             FadeEffect(
-              duration: const Duration(milliseconds: 1000),
+              duration: const Duration(seconds: 3),
             ),
             SlideEffect(
-              duration: const Duration(milliseconds: 1000),
+              duration: const Duration(seconds: 5),
               begin: Offset(-10, 0),
               end: Offset(0, 0),
             ),

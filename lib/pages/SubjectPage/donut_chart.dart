@@ -24,7 +24,6 @@ class _DonutChartState extends State<DonutChart> {
 
     return Consumer<CounterModel>(
       builder: (context, model, child) => Column(
-
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
@@ -63,9 +62,7 @@ class _DonutChartState extends State<DonutChart> {
                                 : model.showValueFunc(widget.index)
                           },
                       child: Text(model.text[widget.index],
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white))),
+                          style: TextStyle(fontSize: 20, color: Colors.white))),
                 )
               ],
             ),
