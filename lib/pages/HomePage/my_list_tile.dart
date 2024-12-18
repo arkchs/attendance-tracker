@@ -101,7 +101,6 @@ class CustomContainer extends StatefulWidget {
 
 class _CustomContainerState extends State<CustomContainer>
     with SingleTickerProviderStateMixin {
-  bool isTap = false;
   double _height = 0.10;
   // bool isList = false;
   bool isListCompleted = false;
@@ -141,22 +140,16 @@ class _CustomContainerState extends State<CustomContainer>
   }
 
   void makeListDisappear() {
+    isListCompleted = !isListCompleted;
+    setState(() {});
     _controller.reverse();
-    _controller.addListener(() {
-      if (_animation.isCompleted) {
-        // isList = !isList;
-        isListCompleted = !isListCompleted;
-        setState(() {});
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        isTap ? makeListDisappear() : makeListAppear();
-        isTap = !isTap;
+        _animation.isCompleted? makeListDisappear() : makeListAppear();
         // _height = _height == 0.6 ? 0.10 : 0.6;
       },
       child: AnimatedBuilder(
